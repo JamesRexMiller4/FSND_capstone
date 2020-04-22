@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, String, Integer, create_engine
+from sqlalchemy import Column, String, Integer, Boolean, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -18,13 +18,14 @@ class Movie(db.Model):
   __table__name = "movies"
 
   id = Column(Integer, primary_key=True)
-  title = Column(String)
+  title = Column(String, default="Working Title")
   release_date = Column(String) #release_date = "2020/07/04"
-  actors = Column(String) #actors = ["2", "4", "42"]
-  def __init__(self, title, release_date, actors):
+  cast_filled = Column(Boolean, default=True)
+
+  def __init__(self, title, release_date, cast_filled):
     self.title = title
     self.release_date = release_date
-    self.actors = actors
+    self.cast_filled = cast_filled
 
   def insert(self):
     db.session.add(self)
@@ -42,21 +43,23 @@ class Movie(db.Model):
       "id": self.id,
       "title": self.title,
       "release_date": self.release_date,
-      "actors": self.actors
+      "cast_filled": self.cast_filled
     }
 
 class Actor(db.Model):
   __tablename__ = "actors"
 
   id = Column(Integer, primary_key=True)
-  name = Column(String)
-  age = Column(Integer)
-  gender = Column(String)
+  name = Column(String, nullable=False)
+  age = Column(Integer, nullable=False)
+  gender = Column(String, nullable=True)
+  seeking_role = Column(Boolean, default=True)
 
-  def __init__(self, name, age, gender):
+  def __init__(self, name, age, gender, seeking_role):
     self.name = name
     self.age = age
     self.gender = gender
+    self.seeking_role = seeking_role
 
   def insert(self):
     db.session.add(self)
