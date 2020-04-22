@@ -14,8 +14,13 @@ def create_app(test_config=None):
     response.headers.add(
             "Access-Control-Allow-Headers", "Content-Type, Authorization, true"
         )
-        response.headers.add(
+    response.headers.add(
             "Access-Control-Allow-Methods", "GET, DELETE, POST, OPTIONS"
         )
-        response.headers.add("Access-Control-Allow-Credentials", "true")
-        return response
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    return response
+
+  
+  @app.route('/')
+  def root():
+    return 'Working'
