@@ -14,14 +14,13 @@ def setup_db(app, database_path=database_path):
   db.create_all()
 
 
-class Movies(db.Model):
+class Movie(db.Model):
   __table__name = "movies"
 
   id = Column(Integer, primary_key=True)
   title = Column(String)
-  release_date = Column(String)
-  actors = Column(String)
-
+  release_date = Column(String) #release_date = "2020/07/04"
+  actors = Column(String) #actors = ["2", "4", "42"]
   def __init__(self, title, release_date, actors):
     self.title = title
     self.release_date = release_date
@@ -44,4 +43,36 @@ class Movies(db.Model):
       "title": self.title,
       "release_date": self.release_date,
       "actors": self.actors
+    }
+
+class Actor(db.Model):
+  __tablename__ = "actors"
+
+  id = Column(Integer, primary_key=True)
+  name = Column(String)
+  age = Column(Integer)
+  gender = Column(String)
+
+  def __init__(self, name, age, gender):
+    self.name = name
+    self.age = age
+    self.gender = gender
+
+  def insert(self):
+    db.session.add(self)
+    db.session.commit()
+
+  def update(self):
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
+
+  def format(self):
+    return {
+      "id": self.id,
+      "name": self.name,
+      "age": self.age,
+      "gender": self.gender
     }
