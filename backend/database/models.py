@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, String, Integer, Boolean, create_engine
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, create_engine
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import json
@@ -16,7 +16,7 @@ def setup_db(app, database_path=database_path):
   db.init_app(app)
   db.create_all()
 
-  migrate = Migrate(app, db)
+  # migrate = Migrate(app, db)
 
 class Movie(db.Model):
   __table__name = "movies"
