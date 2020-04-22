@@ -23,7 +23,7 @@ class Movie(db.Model):
   title = Column(String, default="Working Title")
   release_date = Column(String) #release_date = "2020/07/04"
   cast_filled = Column(Boolean, default=True)
-  # cast_movie = db.relationship('CastMember', backref='movie', lazy=True)
+  cast_movie = db.relationship('CastMember', backref='movie', lazy=True)
 
   def __init__(self, title, release_date, cast_filled):
     self.title = title
@@ -57,7 +57,7 @@ class Actor(db.Model):
   age = Column(Integer, nullable=False)
   gender = Column(String, nullable=True)
   seeking_role = Column(Boolean, default=True)
-  # cast_actor = db.relationship('CastMember', backref="actors", lazy=True)
+  cast_actor = db.relationship('CastMember', backref="actors", lazy=True)
 
   def __init__(self, name, age, gender, seeking_role):
     self.name = name
@@ -85,31 +85,31 @@ class Actor(db.Model):
       "seeking_role": self.seeking_role
     }
 
-# class CastMember(db.Model):
-#   __tablename__ = "cast"
+class CastMember(db.Model):
+  __tablename__ = "cast"
 
-#   id = Column(Integer, primary_key=True)
-#   movie_id = Column(Integer, ForeignKey('movies.id'))
-#   actor_id = Column(Integer, ForeignKey('actors.id'))
+  id = Column(Integer, primary_key=True)
+  movie_id = Column(Integer, ForeignKey('movie.id'))
+  actor_id = Column(Integer, ForeignKey('actors.id'))
 
-#   def __init__(self, movie_id, actor_id):
-#     self.movie_id = movie_id
-#     self.actor_id = actor_id
+  def __init__(self, movie_id, actor_id):
+    self.movie_id = movie_id
+    self.actor_id = actor_id
   
-#   def insert(self):
-#     db.session.add(self)
-#     db.session.commit()
+  def insert(self):
+    db.session.add(self)
+    db.session.commit()
 
-#   def update(self):
-#     db.session.commit()
+  def update(self):
+    db.session.commit()
 
-#   def delete(self):
-#     db.session.delete(self)
-#     db.session.commit()
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
 
-#   def format(self):
-#     return {
-#       "id": self.id,
-#       "movie_id": self.movie_id,
-#       "actor_id": self.actor_id,
-#     }
+  def format(self):
+    return {
+      "id": self.id,
+      "movie_id": self.movie_id,
+      "actor_id": self.actor_id,
+    }
