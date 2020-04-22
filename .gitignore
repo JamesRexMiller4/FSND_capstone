@@ -1,2 +1,5 @@
 env/
 .vscode
+backend/models/__pycache__
+backend/flaskr/__pycache__
+__pycache__
