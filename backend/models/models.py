@@ -77,5 +77,12 @@ class Actor(db.Model):
       "id": self.id,
       "name": self.name,
       "age": self.age,
-      "gender": self.gender
+      "gender": self.gender,
+      "seeking_role": self.seeking_role
     }
+
+class MovieCast(db.Model):
+  __tablename__ = "cast"
+  id = Column(Integer, primary_key=True)
+  movie_id = Column(Integer, ForeignKey('movie.id'))
+  actor_id = Column(Integer, ForeignKey('actor.id'))
