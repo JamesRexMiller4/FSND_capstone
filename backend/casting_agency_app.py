@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import setup_db, Movie, Actor, Cast, db
+from models import setup_db, Movie, Actor, CastMember, db
 
 app = Flask(__name__)
 setup_db(app)
