@@ -85,3 +85,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertEqual(data["deleted"], 27)
+
+  def test_delete_cast_member(self):
+    res = self.client().delete('/casts/22')
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertEqual(data["deleted"], 22)
