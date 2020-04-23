@@ -25,4 +25,27 @@ def create_app(test_config=None):
         return 'Working'
 
 
+    @app.route('/movies')
+    def get_movies():
+        try:
+            movies = Movie.query.order_by(Movie.id).all()
+            print(movies)
+            results = []
+
+            for movie in movies:
+                movie_entry = {
+                    "id": movie.__dict__["id"],
+                    "title": movie.__dict__["title"],
+                    "release_date": movie.__dict__["release_date"],
+                    "cast_filled": movie.__dict__["cast_filled"]
+                }
+                results.append(movie_entry)
+
+            response = {
+                "success": True,
+                "movies": results
+            }
+            return jsonify(response)
+        except:
+            abort(404)
     return app
