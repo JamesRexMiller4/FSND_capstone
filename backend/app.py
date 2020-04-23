@@ -76,7 +76,6 @@ def create_app(test_config=None):
     def delete_movie(movie_id):
         try:
             delete_movie = Movie.query.filter(Movie.id==movie_id).one_or_none()
-            print(delete_movie)
             if delete_movie is None:
                 abort(404)
             else:    
@@ -139,7 +138,6 @@ def create_app(test_config=None):
     def delete_actor(actor_id):
         try:
             delete_actor = Actor.query.filter(Actor.id==actor_id).one_or_none()
-            print(delete_actor)
             if delete_actor is None:
                 abort(404)
             else:    
@@ -195,5 +193,17 @@ def create_app(test_config=None):
             return (jsonify(response), 201)
         except:
             abort(422)
+
+    @app.route("/casts/<int:cast_id>", methods=["DELETE"])
+    def delete_cast_member(cast_id):
+        try:
+            delete_cast_member = CastMember.query.filter(CastMember.id==cast_id).one_or_none()
+            if delete_cast_member is None:
+                abort(404)
+            else:    
+                delete_cast_member.delete()
+                return jsonify({"success": True, "deleted": cast_id})
+        except:
+            abort(404)
 
     return app
