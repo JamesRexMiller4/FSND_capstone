@@ -11,8 +11,7 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.client= self.app.test_client
     self.database_name = 'prestige_worldwide_test'
     self.database_path = 'postgres://{}@{}/{}'.format("jamesmiller", "localhost:5432", self.database_name)
-
-    setup_db(self.app)
+    setup_db(self.app, self.database_path)
 
     with self.app.app_context():
       self.db = SQLAlchemy()
