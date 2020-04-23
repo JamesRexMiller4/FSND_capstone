@@ -52,7 +52,6 @@ def create_app(test_config=None):
     def post_movie():
         try:
             body = request.get_json()
-            print(body)
             new_movie_title = body.get("title", None)
             new_movie_release_date = body.get("release_date", None)
             new_movie_cast_filled = body.get("cast_filled", None)
@@ -96,6 +95,32 @@ def create_app(test_config=None):
             return jsonify(response)
         except:
             abort(404)
+
+    @app.route('/actors', methods=["POST", "OPTIONS"])
+    def post_actor():
+        try:
+            body = request.get_json()
+            new_actor_name = body.get("name", None)
+            new_actor_age = body.get("age", None)
+            new_actor_gender = body.get("gender", None)
+            new_actor_seeking_role = body.get("seeking_role", None)
+
+            actor_new = Actor(name=new_actor_name, age=new_actor_age, gender=new_actor_gender, seeking_role=new_actor_seeking_role)
+            
+            actor_new.insert()
+
+            actor = Actor.query.filter(Actor.name==new_actor_name).one_or_none()
+            response = {
+                "success": True,
+                "id": actor.__dict__["id"],
+                "name": actor.__dict__["name"],
+                "age": actor.__dict__["age"],
+                "gender": actor.__dict__["gender"],
+                "seeking_role": actor.__dict__["seeking_role"]
+            }
+            return (jsonify(response), 201)
+        except:
+            abort(422)
 
     @app.route('/casts')
     def get_casts():
