@@ -48,24 +48,26 @@ def create_app(test_config=None):
             abort(404)
 
 
-    @app.route('/movies', methods=["POST"])
+    @app.route('/movies', methods=["POST", "OPTIONS"])
     def post_movie():
         try:
             body = request.get_json()
-
+            print(body)
             new_movie_title = body.get("title", None)
             new_movie_release_date = body.get("release_date", None)
             new_movie_cast_filled = body.get("cast_filled", None)
 
-            new_movie = Movie(title=new_movie_title, release_date=new_movie_release_date, cast_filled=new_movie_cast_filled)
-            new_movie.insert()
-            print(new_movie["id"])
+            movie_new = Movie(title=new_movie_title, release_date=new_movie_release_date, cast_filled=new_movie_cast_filled)
+            
+            movie_new.insert()
+
+            movie = Movie.query.filter(Movie.title==new_movie_title).one_or_none()
             response = {
                 "success": True,
-                "id": new_movie.__dict__["id"],
-                "title": new_movie.__dict__["title"],
-                "release_date": new_movie.__dict__["release_date"],
-                "cast_filled": new_movie.__dict__["cast_filled"]
+                "id": movie.__dict__["id"],
+                "title": movie.__dict__["title"],
+                "release_date": movie.__dict__["release_date"],
+                "cast_filled": movie.__dict__["cast_filled"]
             }
             return jsonify(response)
         except:

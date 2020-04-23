@@ -44,7 +44,9 @@ class CastingAgencyTestCase(unittest2.TestCase):
 
   def test_post_movie(self):
     res = self.client().post('/movies', json={"title": "Soul", "release_date": "2020/06/19", "cast_filled": True})
+    print(res)
     data = json.loads(res.data)
+    print(data)
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertTrue(data["id"])
