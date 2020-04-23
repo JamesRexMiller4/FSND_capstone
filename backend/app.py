@@ -135,6 +135,19 @@ def create_app(test_config=None):
         except:
             abort(422)
 
+    @app.route("/actors/<int:actor_id>", methods=["DELETE"])
+    def delete_actor(actor_id):
+        try:
+            delete_actor = Actor.query.filter(Actor.id==actor_id).one_or_none()
+            print(delete_actor)
+            if delete_actor is None:
+                abort(404)
+            else:    
+                delete_actor.delete()
+                return jsonify({"success": True, "deleted": actor_id})
+        except:
+            abort(404)
+
     @app.route('/casts')
     def get_casts():
         try:
