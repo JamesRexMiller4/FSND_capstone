@@ -47,4 +47,28 @@ def create_app(test_config=None):
             return jsonify(response)
         except:
             abort(404)
+
+    @app.route("/actors")
+    def get_actors():
+        try:
+            actors = Actor.query.order_by(Actor.id).all()
+            results = []
+
+            for actor in actors:
+                actor_data = {
+                    "id": actor.__dict__["id"],
+                    "name": actor.__dict__["name"],
+                    "age": actor.__dict__["age"],
+                    "gender": actor.__dict__["gender"],
+                    "seeking_role": actor.__dict__["seeking_role"]
+                }
+                results.append(actor_data)
+
+            response = {
+                "success": True,
+                "actors": results
+            }
+            return jsonify(response)
+        except:
+            abort(404)
     return app
