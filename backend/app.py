@@ -47,6 +47,30 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+
+    @app.route('/movies', methods=["POST"])
+    def post_movie():
+        try:
+            body = request.get_json()
+
+            new_movie_title = body.get("title", None)
+            new_movie_release_date = body.get("release_date", None)
+            new_movie_cast_filled = body.get("cast_filled", None)
+
+            new_movie = Movie(title=new_movie_title, release_date=new_movie_release_date, cast_filled=new_movie_cast_filled)
+            new_movie.insert()
+            print(new_movie["id"])
+            response = {
+                "success": True,
+                "id": new_movie.__dict__["id"],
+                "title": new_movie.__dict__["title"],
+                "release_date": new_movie.__dict__["release_date"],
+                "cast_filled": new_movie.__dict__["cast_filled"]
+            }
+            return jsonify(response)
+        except:
+            abort(422)
+
     @app.route("/actors")
     def get_actors():
         try:
@@ -96,4 +120,5 @@ def create_app(test_config=None):
             return jsonify(response)
         except:
             abort(404)
+
     return app
