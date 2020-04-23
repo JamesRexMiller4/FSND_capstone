@@ -148,4 +148,26 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+    @app.route('/casts', methods=["POST", "OPTIONS"])
+    def post_cast_member():
+        try:
+            body = request.get_json()
+            new_cast_movie_id = body.get("movie_id", None)
+            new_cast_actor_id = body.get("actor_id", None)
+
+            cast_new = CastMember(movie_id=new_cast_movie_id, actor_id=new_cast_actor_id)
+            
+            cast_new.insert()
+
+            cast = CastMember.query.filter(CastMember.movie_id==new_cast_movie_id).one_or_none()
+            response = {
+                "success": True,
+                "id": cast.__dict__["id"],
+                "movie_id": cast.__dict__["movie_id"],
+                "actor_id": cast.__dict__["actor_id"]
+            }
+            return (jsonify(response), 201)
+        except:
+            abort(422)
+
     return app
