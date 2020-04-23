@@ -5,7 +5,7 @@ import app
 from flask_sqlalchemy import SQLAlchemy
 from models import setup_db, Movie, Actor, CastMember
 
-class CastingAgencyTestCase(unittest.TestCase):
+class CastingAgencyTestCase(unittest2.TestCase):
   def setUp(self):
     self.app = create_app()
     self.client= self.app.test_client
