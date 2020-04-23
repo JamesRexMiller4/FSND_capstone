@@ -31,7 +31,6 @@ def create_app(test_config=None):
             movies = Movie.query.order_by(Movie.id).all()
             print(movies)
             results = []
-
             for movie in movies:
                 movie_entry = {
                     "id": movie.__dict__["id"],

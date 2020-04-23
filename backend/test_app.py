@@ -28,3 +28,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertTrue(data["movies"])
+
+  def test_get_actors(self):
+    res = self.client().get("/actors")
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertTrue(data["actors"])
