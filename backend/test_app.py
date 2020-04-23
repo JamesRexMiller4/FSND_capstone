@@ -1,7 +1,7 @@
 import os
 import unittest2
 import json
-import app
+from app import create_app
 from flask_sqlalchemy import SQLAlchemy
 from models import setup_db, Movie, Actor, CastMember
 
@@ -12,7 +12,7 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.database_name = 'prestige_worldwide_test'
     self.database_path = 'postgres://{}@{}/{}'.format("jamesmiller", "localhost:5432", self.database_name)
 
-    setup_db(self.app, self.database_path)
+    setup_db(self.app)
 
     with self.app.app_context():
       self.db = SQLAlchemy()
@@ -21,3 +21,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
 
   def teardown(self):
     pass
+
+  def test_get_movies(self):
+    res = self.client().get("/movies")
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertTrue(data["movies"])
