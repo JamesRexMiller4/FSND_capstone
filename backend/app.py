@@ -29,7 +29,6 @@ def create_app(test_config=None):
     def get_movies():
         try:
             movies = Movie.query.order_by(Movie.id).all()
-            print(movies)
             results = []
             for movie in movies:
                 movie_entry = {
@@ -67,6 +66,32 @@ def create_app(test_config=None):
             response = {
                 "success": True,
                 "actors": results
+            }
+            return jsonify(response)
+        except:
+            abort(404)
+
+    @app.route('/casts')
+    def get_casts():
+        try:
+            movies = Movie.query.order_by(Movie.id).all()
+            results = []
+            for movie in movies:
+                cast_data = {
+                    "movie_id": movie.__dict__["id"],
+                    "movie_title": movie.__dict__["title"],
+                    "release_date": movie.__dict__["release_date"],
+                    "cast": []
+                }
+                casts = CastMember.query.filter(CastMember.movie_id==movie.__dict__["id"]).all()
+                for cast_member in casts:
+                    actor = Actor.query.filter(Actor.id==cast_member.__dict__["actor_id"]).one_or_none()
+                    cast_data["cast"].append({actor.__dict__["id"]: actor.__dict__["name"]})
+
+                results.append(cast_data)
+            response = {
+                "success": True,
+                "casts": results
             }
             return jsonify(response)
         except:
