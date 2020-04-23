@@ -44,12 +44,21 @@ class CastingAgencyTestCase(unittest2.TestCase):
 
   def test_post_movie(self):
     res = self.client().post('/movies', json={"title": "Soul", "release_date": "2020/06/19", "cast_filled": True})
-    print(res)
     data = json.loads(res.data)
-    print(data)
-    self.assertEqual(res.status_code, 200)
+    self.assertEqual(res.status_code, 201)
     self.assertEqual(data["success"], True)
     self.assertTrue(data["id"])
     self.assertEqual(data["title"], 'Soul')
     self.assertEqual(data["release_date"], '2020/06/19')
     self.assertEqual(data["cast_filled"], True)
+
+  def test_post_actor(self):
+    res = self.client().post('/actors', json={"name": "John Goodman", "age": 67, "gender": 'Male', "seeking_role": True})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 201)
+    self.assertEqual(data["success"], True)
+    self.assertTrue(data["id"])
+    self.assertEqual(data["name"], 'John Goodman')
+    self.assertEqual(data["age"], 67)
+    self.assertEqual(data["gender"], 'Male')
+    self.assertEqual(data["seeking_role"], True)

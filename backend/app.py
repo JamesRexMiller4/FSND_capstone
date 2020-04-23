@@ -69,7 +69,7 @@ def create_app(test_config=None):
                 "release_date": movie.__dict__["release_date"],
                 "cast_filled": movie.__dict__["cast_filled"]
             }
-            return jsonify(response)
+            return (jsonify(response), 201)
         except:
             abort(422)
 
