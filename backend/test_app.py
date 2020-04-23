@@ -71,3 +71,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertTrue(data["id"])
     self.assertEqual(data["movie_id"], 5)
     self.assertEqual(data["actor_id"], 29)
+
+  def test_delete_movie(self):
+    res = self.client().delete('/movies/4')
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertEqual(data["deleted"], 4)
