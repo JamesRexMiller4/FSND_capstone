@@ -4,3 +4,4 @@ Flask-Migrate
 Flask-Cors
 unittest2
 psycopg2-binary==2.8.5
+python-jose
