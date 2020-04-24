@@ -177,4 +177,6 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 422)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Request cannot be processed.")
-  
+
+# This resource was used to figure out how to get tests to path with requires_auth() decorator
+# https://stackoverflow.com/questions/30249082/python-flask-test-client-doesnt-have-request-authorization-with-pytest
