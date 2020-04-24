@@ -238,30 +238,28 @@ def create_app(test_config=None):
 
 # --------------Error handlers-------------------
 
-@app.errorhandler(422)
-def unprocessable(error):
-    return jsonify({"success": False, "error": 422, "message": "Request cannot be processed."}), 422
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({"success": False, "error": 422, "message": "Request cannot be processed."}), 422
 
+    @app.errorhandler(404)
+    def not_found(error):
+        return (
+            jsonify({"success": False, "error": 404, "message": "Resource not found."}),
+            404,
+        )
 
-@app.errorhandler(404)
-def not_found(error):
-    return (
-        jsonify({"success": False, "error": 404, "message": "Resource not found."}),
-        404,
-    )
-
-
-@app.errorhandler(AuthError)
-def auth_error(error):
-    # based on errors raised in auth.py file
-    return (
-        jsonify(
-            {
-                "success": False,
-                "error": error.__dict__["status_code"],
-                "message": error.__dict__["error"]["description"],
-            }
-        ),
-        error.__dict__["status_code"],
-    )
+    # @app.errorhandler(AuthError)
+    # def auth_error(error):
+    #     # based on errors raised in auth.py file
+    #     return (
+    #         jsonify(
+    #             {
+    #                 "success": False,
+    #                 "error": error.__dict__["status_code"],
+    #                 "message": error.__dict__["error"]["description"],
+    #             }
+    #         ),
+    #         error.__dict__["status_code"],
+    #     )
     return app
