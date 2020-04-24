@@ -84,6 +84,21 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+    @app.route("/movies/<int:movie_id>", methods=["PATCH"])
+    def update_movie(movie_id):
+        try:
+            body = request.get_json()
+            Movie.query.filter(Movie.id==movie_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": movie_id
+            }
+            return jsonify(response)
+        except:
+            abort(404)
+
     @app.route("/actors")
     def get_actors():
         try:

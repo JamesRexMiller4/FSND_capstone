@@ -92,3 +92,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertEqual(data["deleted"], 22)
+
+  def test_patch_movie(self):
+    res = self.client().patch('/movies/5', json={"release_date": "2042/04/19"})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertEqual(data["id"], 5)
