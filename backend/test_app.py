@@ -162,3 +162,11 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 422)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Request cannot be processed.")
+
+  def test_422_patch_actor_error(self):
+    res = self.client().patch('/actors/4', json={"password": "SuperStrongPassword123"})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 422)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Request cannot be processed.")
+  

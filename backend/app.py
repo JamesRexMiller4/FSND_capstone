@@ -88,19 +88,23 @@ def create_app(test_config=None):
     def update_movie(movie_id):
         try:
             body = request.get_json()
-            movie_to_update = Movie.query.filter(Movie.id==movie_id).one_or_none()
+            movie_to_update = Movie.query.filter(Movie.id==movie_id).one_or_none().format()
 
             if movie_to_update is None:
                 abort(404)
             else:
-                Movie.query.filter(Movie.id==movie_id).update(body)
-                db.session.commit()
-                
-                response = {
-                    "success": True,
-                    "id": movie_id
-                }
-                return jsonify(response)
+                for key in body:
+                    if movie_to_update[key] is None:
+                        abort(422)
+
+            Movie.query.filter(Movie.id==movie_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": movie_id
+            }
+            return jsonify(response)
         except:
             abort(422)
 
@@ -170,11 +174,15 @@ def create_app(test_config=None):
     def update_actor(actor_id):
         try:
             body = request.get_json()
+            actor_to_update = Actor.query.filter(Actor.id==actor_id).one_or_none().format()
 
-            for key in body:
-                actor_to_check_against = Actor.query.first().format()
-                if actor_to_check_against[key] is None:
-                    abort(404)
+            if actor_to_update is None:
+                abort(404)
+            else:
+                for key in body:
+                    if actor_to_update[key] is None:
+                        abort(422)
+
 
             Actor.query.filter(Actor.id==actor_id).update(body)
             db.session.commit()
