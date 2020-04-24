@@ -120,3 +120,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Resource not found.")
+
+  def test_402_post_movie_error(self):
+    res = self.client().post('/movies', json={"title": "Bill and Ted's Biggest Adventure Yet", "release_date": "Space === Time", "cast_filled": "Maybe" })
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 422)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Request cannot be processed.")
