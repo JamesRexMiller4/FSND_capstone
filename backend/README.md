@@ -30,6 +30,7 @@ To seed the databases you can run:
 This database also utilizes Flask-Migrate which allows us to run migrations on our database, making updates to the models/schemas while still holding onto our already existing data.
 To learn more about Flask-Migrate visit their site on documentation on how to utilize it: https://flask-migrate.readthedocs.io/en/latest/
 
+
 ## Backend
 
 From the backend folder (backend/) run
@@ -51,6 +52,26 @@ To run the application run the following commands while in the backend directory
 
 These commands put the application in development mode and directs our application to use app.py as our root file. Working in development mode shows an interactive debugger in the console and restarts the server whenever changes are made. If running locally on Windows, look for the commands in the Flask documentation.
 The application is run on http://127.0.0.1:5000/ by default and is a proxy in the frontend configuration.
+
+## Login Credentials 
+
+For all get requests no authorization is required, and resources can be received simply by visiting the endpoint in your browser of choice. 
+
+To be able to perform CRUD operations such as POST, DELETE and PATCH the user will need to login in as one of the following roles by visiting: 
+
+https://prestige-worldwide.auth0.com/authorize?audience=prestige-worldwide&response_type=token&client_id=ZAge6P7lBGBC3ZgH2bCjz0ddh1GnWQe7&redirect_uri=http:/localhost:5000/login-details
+
+**To login as a Casting Direction:**
+
+`email: example@email.com`
+`password: Password1234`
+
+**To login as a Executive Producer:**
+
+`email: bigcheese@email.com`
+`password: Password1234`
+
+Once logged in you will be redirected to a broken page, however in the browser url bar you will have generated the JWT access token required to perform the operations that require authorization. To verify the JWT visit JWT.io and enter the token there. You may need to trim some accessory data from the end.
 
 
 ## API Reference
