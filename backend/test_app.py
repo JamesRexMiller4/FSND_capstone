@@ -107,8 +107,15 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(data["success"], True)
     self.assertEqual(data["id"], 29)
 
-  def test_404_error(self):
+  def test_404_get_movies_error(self):
     res = self.client().get('/movieesss')
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Resource not found.")
+
+  def test_404_get_actors_error(self):
+    res = self.client().get('/factors')
     data = json.loads(res.data)
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data["success"], False)
