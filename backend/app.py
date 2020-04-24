@@ -161,6 +161,21 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+    @app.route("/actors/<int:actor_id>", methods=["PATCH"])
+    def update_actor(actor_id):
+        try:
+            body = request.get_json()
+            Actor.query.filter(Actor.id==actor_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": actor_id
+            }
+            return jsonify(response)
+        except:
+            abort(404)
+
     @app.route('/casts')
     def get_casts():
         try:
