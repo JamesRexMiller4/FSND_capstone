@@ -48,24 +48,61 @@ def create_app(test_config=None):
             abort(404)
 
 
-    @app.route('/movies', methods=["POST"])
+    @app.route('/movies', methods=["POST", "OPTIONS"])
     def post_movie():
         try:
             body = request.get_json()
-
             new_movie_title = body.get("title", None)
             new_movie_release_date = body.get("release_date", None)
             new_movie_cast_filled = body.get("cast_filled", None)
 
-            new_movie = Movie(title=new_movie_title, release_date=new_movie_release_date, cast_filled=new_movie_cast_filled)
-            new_movie.insert()
-            print(new_movie["id"])
+            movie_new = Movie(title=new_movie_title, release_date=new_movie_release_date, cast_filled=new_movie_cast_filled)
+            
+            movie_new.insert()
+
+            movie = Movie.query.filter(Movie.title==new_movie_title).one_or_none()
             response = {
                 "success": True,
-                "id": new_movie.__dict__["id"],
-                "title": new_movie.__dict__["title"],
-                "release_date": new_movie.__dict__["release_date"],
-                "cast_filled": new_movie.__dict__["cast_filled"]
+                "id": movie.__dict__["id"],
+                "title": movie.__dict__["title"],
+                "release_date": movie.__dict__["release_date"],
+                "cast_filled": movie.__dict__["cast_filled"]
+            }
+            return (jsonify(response), 201)
+        except:
+            abort(422)
+
+    @app.route("/movies/<int:movie_id>", methods=["DELETE"])
+    def delete_movie(movie_id):
+        try:
+            delete_movie = Movie.query.filter(Movie.id==movie_id).one_or_none()
+            if delete_movie is None:
+                abort(404)
+            else:    
+                delete_movie.delete()
+                return jsonify({"success": True, "deleted": movie_id})
+        except:
+            abort(404)
+
+    @app.route("/movies/<int:movie_id>", methods=["PATCH"])
+    def update_movie(movie_id):
+        try:
+            body = request.get_json()
+            movie_to_update = Movie.query.filter(Movie.id==movie_id).one_or_none().format()
+
+            if movie_to_update is None:
+                abort(404)
+            else:
+                for key in body:
+                    if movie_to_update[key] is None:
+                        abort(422)
+
+            Movie.query.filter(Movie.id==movie_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": movie_id
             }
             return jsonify(response)
         except:
@@ -95,6 +132,69 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+    @app.route('/actors', methods=["POST", "OPTIONS"])
+    def post_actor():
+        try:
+            body = request.get_json()
+            new_actor_name = body.get("name", None)
+            new_actor_age = body.get("age", None)
+            new_actor_gender = body.get("gender", None)
+            new_actor_seeking_role = body.get("seeking_role", None)
+
+            actor_new = Actor(name=new_actor_name, age=new_actor_age, gender=new_actor_gender, seeking_role=new_actor_seeking_role)
+            
+            actor_new.insert()
+
+            actor = Actor.query.filter(Actor.name==new_actor_name).one_or_none()
+            response = {
+                "success": True,
+                "id": actor.__dict__["id"],
+                "name": actor.__dict__["name"],
+                "age": actor.__dict__["age"],
+                "gender": actor.__dict__["gender"],
+                "seeking_role": actor.__dict__["seeking_role"]
+            }
+            return (jsonify(response), 201)
+        except:
+            abort(422)
+
+    @app.route("/actors/<int:actor_id>", methods=["DELETE"])
+    def delete_actor(actor_id):
+        try:
+            delete_actor = Actor.query.filter(Actor.id==actor_id).one_or_none()
+            if delete_actor is None:
+                abort(404)
+            else:    
+                delete_actor.delete()
+                return jsonify({"success": True, "deleted": actor_id})
+        except:
+            abort(404)
+
+    @app.route("/actors/<int:actor_id>", methods=["PATCH"])
+    def update_actor(actor_id):
+        try:
+            body = request.get_json()
+            actor_to_update = Actor.query.filter(Actor.id==actor_id).one_or_none().format()
+
+            if actor_to_update is None:
+                abort(404)
+            else:
+                for key in body:
+                    if actor_to_update[key] is None:
+                        abort(422)
+
+
+            Actor.query.filter(Actor.id==actor_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": actor_id
+            }
+            return jsonify(response)
+        except:
+            abort(422)
+
     @app.route('/casts')
     def get_casts():
         try:
@@ -121,4 +221,68 @@ def create_app(test_config=None):
         except:
             abort(404)
 
+    @app.route('/casts', methods=["POST", "OPTIONS"])
+    def post_cast_member():
+        try:
+            body = request.get_json()
+            new_cast_movie_id = body.get("movie_id", None)
+            new_cast_actor_id = body.get("actor_id", None)
+
+            if Movie.query.filter(Movie.id==new_cast_movie_id).one_or_none() is None \
+                or Actor.query.filter(Actor.id==new_cast_actor_id).one_or_none() is None:
+                abort(422)
+            else: 
+                cast_new = CastMember(movie_id=new_cast_movie_id, actor_id=new_cast_actor_id)
+                
+                cast_new.insert()
+
+                cast = CastMember.query.filter(CastMember.movie_id==new_cast_movie_id).one_or_none()
+                response = {
+                    "success": True,
+                    "id": cast.__dict__["id"],
+                    "movie_id": cast.__dict__["movie_id"],
+                    "actor_id": cast.__dict__["actor_id"]
+                }
+                return (jsonify(response), 201)
+        except:
+            abort(422)
+
+    @app.route("/casts/<int:cast_id>", methods=["DELETE"])
+    def delete_cast_member(cast_id):
+        try:
+            delete_cast_member = CastMember.query.filter(CastMember.id==cast_id).one_or_none()
+            if delete_cast_member is None:
+                abort(404)
+            else:    
+                delete_cast_member.delete()
+                return jsonify({"success": True, "deleted": cast_id})
+        except:
+            abort(404)
+
+# --------------Error handlers-------------------
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({"success": False, "error": 422, "message": "Request cannot be processed."}), 422
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return (
+            jsonify({"success": False, "error": 404, "message": "Resource not found."}),
+            404,
+        )
+
+    # @app.errorhandler(AuthError)
+    # def auth_error(error):
+    #     # based on errors raised in auth.py file
+    #     return (
+    #         jsonify(
+    #             {
+    #                 "success": False,
+    #                 "error": error.__dict__["status_code"],
+    #                 "message": error.__dict__["error"]["description"],
+    #             }
+    #         ),
+    #         error.__dict__["status_code"],
+    #     )
     return app
