@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from models import setup_db, Movie, Actor, CastMember, db
+from auth import AuthError, requires_auth
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -49,7 +50,8 @@ def create_app(test_config=None):
 
 
     @app.route('/movies', methods=["POST", "OPTIONS"])
-    def post_movie():
+    @requires_auth("post:movies")
+    def post_movie(jwt):
         try:
             body = request.get_json()
             new_movie_title = body.get("title", None)
@@ -73,7 +75,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
-    def delete_movie(movie_id):
+    @requires_auth("delete:movies")
+    def delete_movie(jwt, movie_id):
         try:
             delete_movie = Movie.query.filter(Movie.id==movie_id).one_or_none()
             if delete_movie is None:
@@ -85,7 +88,8 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route("/movies/<int:movie_id>", methods=["PATCH"])
-    def update_movie(movie_id):
+    @requires_auth("patch:movies/id")
+    def update_movie(jwt, movie_id):
         try:
             body = request.get_json()
             movie_to_update = Movie.query.filter(Movie.id==movie_id).one_or_none().format()
@@ -133,7 +137,8 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route('/actors', methods=["POST", "OPTIONS"])
-    def post_actor():
+    @requires_auth("post:actors")
+    def post_actor(jwt):
         try:
             body = request.get_json()
             new_actor_name = body.get("name", None)
@@ -159,7 +164,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
-    def delete_actor(actor_id):
+    @requires_auth("delete:actors")
+    def delete_actor(jwt, actor_id):
         try:
             delete_actor = Actor.query.filter(Actor.id==actor_id).one_or_none()
             if delete_actor is None:
@@ -171,7 +177,8 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route("/actors/<int:actor_id>", methods=["PATCH"])
-    def update_actor(actor_id):
+    @requires_auth("patch:actors/id")
+    def update_actor(jwt, actor_id):
         try:
             body = request.get_json()
             actor_to_update = Actor.query.filter(Actor.id==actor_id).one_or_none().format()
@@ -222,7 +229,8 @@ def create_app(test_config=None):
             abort(404)
 
     @app.route('/casts', methods=["POST", "OPTIONS"])
-    def post_cast_member():
+    @requires_auth("post:casts")
+    def post_cast_member(jwt):
         try:
             body = request.get_json()
             new_cast_movie_id = body.get("movie_id", None)
@@ -248,7 +256,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route("/casts/<int:cast_id>", methods=["DELETE"])
-    def delete_cast_member(cast_id):
+    @requires_auth("delete:casts")
+    def delete_cast_member(jwt, cast_id):
         try:
             delete_cast_member = CastMember.query.filter(CastMember.id==cast_id).one_or_none()
             if delete_cast_member is None:
@@ -272,17 +281,17 @@ def create_app(test_config=None):
             404,
         )
 
-    # @app.errorhandler(AuthError)
-    # def auth_error(error):
-    #     # based on errors raised in auth.py file
-    #     return (
-    #         jsonify(
-    #             {
-    #                 "success": False,
-    #                 "error": error.__dict__["status_code"],
-    #                 "message": error.__dict__["error"]["description"],
-    #             }
-    #         ),
-    #         error.__dict__["status_code"],
-    #     )
+    @app.errorhandler(AuthError)
+    def auth_error(error):
+        # based on errors raised in auth.py file
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "error": error.__dict__["status_code"],
+                    "message": error.__dict__["error"]["description"],
+                }
+            ),
+            error.__dict__["status_code"],
+        )
     return app
