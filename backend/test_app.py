@@ -121,14 +121,14 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Resource not found.")
 
-  def test_402_post_movie_error(self):
+  def test_422_post_movie_error(self):
     res = self.client().post('/movies', json={"title": "Bill and Ted's Biggest Adventure Yet", "release_date": "Space === Time", "cast_filled": "Maybe" })
     data = json.loads(res.data)
     self.assertEqual(res.status_code, 422)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Request cannot be processed.")
   
-  def test_402_post_actor_error(self):
+  def test_422_post_actor_error(self):
     res = self.client().post('/actors', json={"name": "Pete", "age": "42", "gender": "Male", "seeking_role": "Maybe" })
     data = json.loads(res.data)
     self.assertEqual(res.status_code, 422)
@@ -151,6 +151,13 @@ class CastingAgencyTestCase(unittest2.TestCase):
 
   def test_404_delete_cast_member_error(self):
     res = self.client().delete('/casts/999999')
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Resource not found.")
+
+  def test_404_patch_movie_error(self):
+    res = self.client().delete('/movies/999999', json={"release_date": "2021/04/19"})
     data = json.loads(res.data)
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data["success"], False)

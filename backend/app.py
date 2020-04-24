@@ -88,16 +88,21 @@ def create_app(test_config=None):
     def update_movie(movie_id):
         try:
             body = request.get_json()
-            Movie.query.filter(Movie.id==movie_id).update(body)
-            db.session.commit()
-            
-            response = {
-                "success": True,
-                "id": movie_id
-            }
-            return jsonify(response)
+            movie_to_update = Movie.query.filter(Movie.id==movie_id).one_or_none()
+
+            if movie_to_update is None:
+                abort(404)
+            else:
+                Movie.query.filter(Movie.id==movie_id).update(body)
+                db.session.commit()
+                
+                response = {
+                    "success": True,
+                    "id": movie_id
+                }
+                return jsonify(response)
         except:
-            abort(404)
+            abort(422)
 
     @app.route("/actors")
     def get_actors():
@@ -165,16 +170,21 @@ def create_app(test_config=None):
     def update_actor(actor_id):
         try:
             body = request.get_json()
-            Actor.query.filter(Actor.id==actor_id).update(body)
-            db.session.commit()
-            
-            response = {
-                "success": True,
-                "id": actor_id
-            }
-            return jsonify(response)
+            actor_to_update = Actor.query.filter(Actor.id==actor_id).one_or_none()
+
+            if actor_to_update is None:
+                abort(404)
+            else:
+                Actor.query.filter(Actor.id==actor_id).update(body)
+                db.session.commit()
+                
+                response = {
+                    "success": True,
+                    "id": actor_id
+                }
+                return jsonify(response)
         except:
-            abort(404)
+            abort(422)
 
     @app.route('/casts')
     def get_casts():
