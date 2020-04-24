@@ -25,7 +25,7 @@ def create_app(test_config=None):
     def index():
         return 'Working'
 
-
+# --------------- Movies endpoints -----------------
     @app.route('/movies')
     def get_movies():
         try:
@@ -48,7 +48,6 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-
     @app.route('/movies', methods=["POST", "OPTIONS"])
     @requires_auth("post:movies")
     def post_movie(jwt):
@@ -62,13 +61,13 @@ def create_app(test_config=None):
             
             movie_new.insert()
 
-            movie = Movie.query.filter(Movie.title==new_movie_title).one_or_none()
+            movie = Movie.query.filter(Movie.title==new_movie_title).one_or_none().format()
             response = {
                 "success": True,
-                "id": movie.__dict__["id"],
-                "title": movie.__dict__["title"],
-                "release_date": movie.__dict__["release_date"],
-                "cast_filled": movie.__dict__["cast_filled"]
+                "id": movie["id"],
+                "title": movie["title"],
+                "release_date": movie["release_date"],
+                "cast_filled": movie["cast_filled"]
             }
             return (jsonify(response), 201)
         except:
@@ -111,7 +110,7 @@ def create_app(test_config=None):
             return jsonify(response)
         except:
             abort(422)
-
+# --------------- Actors endpoints -----------------
     @app.route("/actors")
     def get_actors():
         try:
@@ -150,14 +149,14 @@ def create_app(test_config=None):
             
             actor_new.insert()
 
-            actor = Actor.query.filter(Actor.name==new_actor_name).one_or_none()
+            actor = Actor.query.filter(Actor.name==new_actor_name).one_or_none().format()
             response = {
                 "success": True,
-                "id": actor.__dict__["id"],
-                "name": actor.__dict__["name"],
-                "age": actor.__dict__["age"],
-                "gender": actor.__dict__["gender"],
-                "seeking_role": actor.__dict__["seeking_role"]
+                "id": actor["id"],
+                "name": actor["name"],
+                "age": actor["age"],
+                "gender": actor["gender"],
+                "seeking_role": actor["seeking_role"]
             }
             return (jsonify(response), 201)
         except:
@@ -201,7 +200,7 @@ def create_app(test_config=None):
             return jsonify(response)
         except:
             abort(422)
-
+# --------------- Casts endpoints -----------------
     @app.route('/casts')
     def get_casts():
         try:
@@ -243,12 +242,12 @@ def create_app(test_config=None):
                 
                 cast_new.insert()
 
-                cast = CastMember.query.filter(CastMember.movie_id==new_cast_movie_id).one_or_none()
+                cast = CastMember.query.filter(CastMember.movie_id==new_cast_movie_id).one_or_none().format()
                 response = {
                     "success": True,
-                    "id": cast.__dict__["id"],
-                    "movie_id": cast.__dict__["movie_id"],
-                    "actor_id": cast.__dict__["actor_id"]
+                    "id": cast["id"],
+                    "movie_id": cast["movie_id"],
+                    "actor_id": cast["actor_id"]
                 }
                 return (jsonify(response), 201)
         except:
