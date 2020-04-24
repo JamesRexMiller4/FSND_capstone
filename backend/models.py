@@ -25,7 +25,7 @@ class Movie(db.Model):
   title = Column(String, default="Working Title")
   release_date = Column(String) #release_date = "2020/07/04"
   cast_filled = Column(Boolean, default=True)
-  cast_movie = db.relationship('CastMember', backref='movie', lazy=True, passive_deletes=True)
+  cast_movie = db.relationship('CastMember', backref='movie', lazy=True, cascade="all, delete-orphan")
 
   def __init__(self, title, release_date, cast_filled):
     self.title = title
@@ -59,7 +59,7 @@ class Actor(db.Model):
   age = Column(Integer, nullable=False)
   gender = Column(String, nullable=True)
   seeking_role = Column(Boolean, default=True)
-  cast_actor = db.relationship('CastMember', backref="actors", lazy=True, passive_deletes=True)
+  cast_actor = db.relationship('CastMember', backref="actors", lazy=True, cascade="all, delete-orphan")
 
   def __init__(self, name, age, gender, seeking_role):
     self.name = name
@@ -91,8 +91,8 @@ class CastMember(db.Model):
   __tablename__ = "cast"
 
   id = Column(Integer, primary_key=True)
-  movie_id = Column(Integer, ForeignKey('movie.id', ondelete='CASCADE'))
-  actor_id = Column(Integer, ForeignKey('actors.id', ondelete='CASCADE'))
+  movie_id = Column(Integer, ForeignKey('movie.id'))
+  actor_id = Column(Integer, ForeignKey('actors.id'))
 
   def __init__(self, movie_id, actor_id):
     self.movie_id = movie_id
