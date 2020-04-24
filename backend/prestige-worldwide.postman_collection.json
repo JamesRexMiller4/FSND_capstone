@@ -330,6 +330,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -411,6 +414,31 @@
 				}
 			],
 			"description": "Casting Assistant is has no permissions for accessing privileged assests, and will represent a public request to all endpoints.",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fc72ad0f-7f49-4df0-9b6b-e8388a88c048",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f5b2958-8425-463a-b10f-993ddd69a78b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -740,13 +768,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/casts/1",
+							"raw": "{{host}}/casts/20",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"casts",
-								"1"
+								"20"
 							]
 						}
 					},
@@ -842,7 +870,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVMTzJ3Qk1Na21sQS0yZHR2ZUhTUCJ9.eyJpc3MiOiJodHRwczovL3ByZXN0aWdlLXdvcmxkd2lkZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVhMjdjMjY4YzZiZGUwYzhjYWQzOTBhIiwiYXVkIjoicHJlc3RpZ2Utd29ybGR3aWRlIiwiaWF0IjoxNTg3NzA3MDY4LCJleHAiOjE1ODc3MTQyNjgsImF6cCI6IlpBZ2U2UDdsQkdCQzNaZ0gyYkNqejBkZGgxR25XUWU3Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOmNhc3RzIiwiZ2V0OmFjdG9ycyIsImdldDpjYXN0cyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMvaWQiLCJwYXRjaDptb3ZpZXMvaWQiLCJwb3N0OmFjdG9ycyIsInBvc3Q6Y2FzdHMiXX0.W-p3Tfd-MwlNGrSCpdWmWDD4WLj6HQ64Arq_2YYhmLxIoBDMkzde_Fks40L6kJxN638M73lq3kD-TFRmMyrNi0PLg-HBi42m7Cwsw0iij74kmjJaG0ozkSpOZAbd2zAeYeL52OQPcuHuxWozIynl6j54cedn5SL-PNnYk7pzbxq-GCa86f6Zghw3MVFaNIxfdR_wU-yaudK-DUeT91Z4XGg_M54_U6M_GWY2h96i189T-8OWKoaR_gbBdLkMpqZLSp9jecXtKamfL6k8H4eFVF80tQNWO4xX4rwDKtwPNwGWwPzADVAXG5aQsxVCO7SZdIPcSLsiI_DrcQ-a2kuHLQ",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVMTzJ3Qk1Na21sQS0yZHR2ZUhTUCJ9.eyJpc3MiOiJodHRwczovL3ByZXN0aWdlLXdvcmxkd2lkZS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVhMjdjMjY4YzZiZGUwYzhjYWQzOTBhIiwiYXVkIjoicHJlc3RpZ2Utd29ybGR3aWRlIiwiaWF0IjoxNTg3NzM4MTIyLCJleHAiOjE1ODc4MjQ1MjIsImF6cCI6IlpBZ2U2UDdsQkdCQzNaZ0gyYkNqejBkZGgxR25XUWU3Iiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOmNhc3RzIiwiZ2V0OmFjdG9ycyIsImdldDpjYXN0cyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMvaWQiLCJwYXRjaDptb3ZpZXMvaWQiLCJwb3N0OmFjdG9ycyIsInBvc3Q6Y2FzdHMiXX0.KSd2WcJVqLtrtVxT9Faw256Lr77MItacNKWx0cuRt72RK9zpuhGXam3d1g-8fLedIVK5rlYjDZZi6BIcAfSNWTVMr3IThiqFMbPAWQSaKABb-Slj6eoSxpqfF1eqEKNoNJ7aAcq-u1yxhlI5RwD_IFbVmvYsTPspWTIaX52xKngaYfvH8ERe8kFcC208CALGnQz1ibUOmkpk0OdY5ZdKchozReqxiiIXm_0THXZY5VBgUslKzIQYFAdrF-sROszZW4g5X92aP2kERHdT_9NV_iqlJdkxWnBAJtr-D5S0s7GjG1Wr754aEjo3hxxR9asyT2CPOAlzQZSNsD6PA4SZng",
 						"type": "string"
 					}
 				]
@@ -1095,7 +1123,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"movie_id\": 2,\n\t\"actor_id\": 2\n}",
+							"raw": "{\n\t\"movie_id\": 5,\n\t\"actor_id\": 30\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1198,13 +1226,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/casts/3",
+							"raw": "{{host}}/casts/18",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"casts",
-								"3"
+								"18"
 							]
 						}
 					},
@@ -1299,7 +1327,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVMTzJ3Qk1Na21sQS0yZHR2ZUhTUCJ9.eyJpc3MiOiJodHRwczovL3ByZXN0aWdlLXdvcmxkd2lkZS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDA2NzE4MTMxODQ1MTQwNjQ1NjUiLCJhdWQiOlsicHJlc3RpZ2Utd29ybGR3aWRlIiwiaHR0cHM6Ly9wcmVzdGlnZS13b3JsZHdpZGUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTU4NzcwODIyNCwiZXhwIjoxNTg3NzE1NDI0LCJhenAiOiJaQWdlNlA3bEJHQkMzWmdIMmJDanowZGRoMUduV1FlNyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOmNhc3RzIiwiZGVsZXRlOm1vdmllcyIsImdldDphY3RvcnMiLCJnZXQ6Y2FzdHMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3JzL2lkIiwicGF0Y2g6bW92aWVzL2lkIiwicG9zdDphY3RvcnMiLCJwb3N0OmNhc3RzIiwicG9zdDptb3ZpZXMiXX0.avXt7eY3EOU9n4frrWDAn1FJnp9bb1528fGxxOlzZ-9uAeSg038qe1hiT0vwBAglgzvZ-1nPNBf6NhdTWEnyIp65W60Hj4WBygk8SXVecnutG1ObM8WZFqmWh-pKUCZtFm1QW5K91O8TTvwSfHzYsWk53PYRx2E0TJ_b3aGz0LYRwSAYtjHJCwF4OZeYyLRjd0kAXXDGOlD0ipMOPQDh8uKAuE4dPr5TXU9y5mQuKomLs_j41ytOT2EA8yaLR7d9tIVmHXPvoCoGa4lo1gacSp-AJIFpaBGgqTViQ9PcMvO5y369GjgcxbnmzAap3KwbfNKxYSNGJ7YW9XQ4P_I4fg",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVMTzJ3Qk1Na21sQS0yZHR2ZUhTUCJ9.eyJpc3MiOiJodHRwczovL3ByZXN0aWdlLXdvcmxkd2lkZS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDA2NzE4MTMxODQ1MTQwNjQ1NjUiLCJhdWQiOlsicHJlc3RpZ2Utd29ybGR3aWRlIiwiaHR0cHM6Ly9wcmVzdGlnZS13b3JsZHdpZGUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTU4NzczNzMxNCwiZXhwIjoxNTg3ODIzNzE0LCJhenAiOiJaQWdlNlA3bEJHQkMzWmdIMmJDanowZGRoMUduV1FlNyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOmNhc3RzIiwiZGVsZXRlOm1vdmllcyIsImdldDphY3RvcnMiLCJnZXQ6Y2FzdHMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3JzL2lkIiwicGF0Y2g6bW92aWVzL2lkIiwicG9zdDphY3RvcnMiLCJwb3N0OmNhc3RzIiwicG9zdDptb3ZpZXMiXX0.gncLDe2zxJ4bfPB67yafpKOLJTG3ta1ELooDoKPESmXPydsY1jO8gXYYdkad2f_u2n61_lE9xtPKDekSdyFJTfVL2dX3VG2r-Zdcv8bkuv1Mfx9Tax4x9vbA8y9dsHOm4ToxBMZxsyk-Si5Uwg7EDKsSpqvGyPfTEmpYxW0HMokHSFbkm1kVZ4stNHU7GWCfrNz5ZJi4eGCl2NhZTLSBEbYPRhzLa4fGQUQymKK0beYyljSqECy5dzBWuZuV6aYyTMZli97ZF7QZldFN4RQQsX77H4tNSIz4aHWW30tHqY8GOCfY3CxhsLo7P9J1tzYZaSHp-zFEXxt1GekmKKSbyg",
 						"type": "string"
 					}
 				]
@@ -1353,7 +1381,7 @@
 	],
 	"variable": [
 		{
-			"id": "07452f4a-030d-44d8-bd31-05bb2837af35",
+			"id": "9d237efc-cef1-4d0f-a435-b93d6e5807af",
 			"key": "host",
 			"value": "localhost:5000",
 			"type": "string"
