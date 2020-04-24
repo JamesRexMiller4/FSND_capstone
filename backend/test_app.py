@@ -106,3 +106,5 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertEqual(data["id"], 29)
+
+# --------Tests for Errors----------------
