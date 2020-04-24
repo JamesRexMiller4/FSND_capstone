@@ -99,3 +99,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 200)
     self.assertEqual(data["success"], True)
     self.assertEqual(data["id"], 5)
+
+  def test_patch_actor(self):
+    res = self.client().patch('/actors/29', json={"seeking_role": "False"})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 200)
+    self.assertEqual(data["success"], True)
+    self.assertEqual(data["id"], 29)
