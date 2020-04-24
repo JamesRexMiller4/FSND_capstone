@@ -5,3 +5,8 @@ Flask-Cors
 unittest2
 psycopg2-binary==2.8.5
 python-jose
+appdirs==1.4.3
+attrs==19.3.0
+click==7.1.1
+gunicorn==20.0.4
+pathspec==0.8.0
