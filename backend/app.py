@@ -170,19 +170,20 @@ def create_app(test_config=None):
     def update_actor(actor_id):
         try:
             body = request.get_json()
-            actor_to_update = Actor.query.filter(Actor.id==actor_id).one_or_none()
 
-            if actor_to_update is None:
-                abort(404)
-            else:
-                Actor.query.filter(Actor.id==actor_id).update(body)
-                db.session.commit()
-                
-                response = {
-                    "success": True,
-                    "id": actor_id
-                }
-                return jsonify(response)
+            for key in body:
+                actor_to_update = Actor.query.filter(Actor[key]==body[key]).one_or_none()
+                if actor_to_update is None:
+                    abort(404)
+
+            Actor.query.filter(Actor.id==actor_id).update(body)
+            db.session.commit()
+            
+            response = {
+                "success": True,
+                "id": actor_id
+            }
+            return jsonify(response)
         except:
             abort(422)
 

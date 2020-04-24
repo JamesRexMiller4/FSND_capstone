@@ -162,3 +162,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Resource not found.")
+
+  def test_422_patch_movie_error(self):
+    res = self.client().delete('/movies/1', json={"ahhhhhhhhh"})
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 422)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Request cannot be processed.")
