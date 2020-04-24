@@ -236,8 +236,7 @@ def create_app(test_config=None):
             new_cast_movie_id = body.get("movie_id", None)
             new_cast_actor_id = body.get("actor_id", None)
 
-            if Movie.query.filter(Movie.id==new_cast_movie_id).one_or_none() is None \
-                or Actor.query.filter(Actor.id==new_cast_actor_id).one_or_none() is None:
+            if Movie.query.filter(Movie.id==new_cast_movie_id).one_or_none() is None or Actor.query.filter(Actor.id==new_cast_actor_id).one_or_none() is None:
                 abort(422)
             else: 
                 cast_new = CastMember(movie_id=new_cast_movie_id, actor_id=new_cast_actor_id)
