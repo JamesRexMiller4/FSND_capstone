@@ -141,3 +141,10 @@ class CastingAgencyTestCase(unittest2.TestCase):
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data["success"], False)
     self.assertEqual(data["message"], "Resource not found.")
+
+  def test_404_delete_actor_error(self):
+    res = self.client().delete('/actors/999999')
+    data = json.loads(res.data)
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data["success"], False)
+    self.assertEqual(data["message"], "Resource not found.")
