@@ -83,9 +83,6 @@ def create_app(test_config=None):
                 abort(404)
             else:    
                 delete_movie.delete()
-                cast = CastMember.query.filter(CastMember.movie_id==movie_id).all()
-                for member in cast:
-                    member.delete()
                 return jsonify({"success": True, "deleted": movie_id})
         except:
             abort(404)
@@ -175,10 +172,6 @@ def create_app(test_config=None):
                 abort(404)
             else:    
                 delete_actor.delete()
-                cast = CastMember.query.filter(CastMember.actor_id==actor_id).all()
-                for member in cast:
-                    member.delete()
-
                 return jsonify({"success": True, "deleted": actor_id})
         except:
             abort(404)
