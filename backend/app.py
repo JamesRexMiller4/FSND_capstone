@@ -172,8 +172,8 @@ def create_app(test_config=None):
             body = request.get_json()
 
             for key in body:
-                actor_to_update = Actor.query.filter(Actor[key]==body[key]).one_or_none()
-                if actor_to_update is None:
+                actor_to_check_against = Actor.query.first().format()
+                if actor_to_check_against[key] is None:
                     abort(404)
 
             Actor.query.filter(Actor.id==actor_id).update(body)
