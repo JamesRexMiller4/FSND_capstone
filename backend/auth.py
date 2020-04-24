@@ -1,7 +1,7 @@
 import json
 from flask import request, _request_ctx_stack
 from functools import wraps
-from jose import JWT
+from jose import jwt
 from urllib.request import urlopen
 
 AUTH0_DOMAIN = "prestige-worldwide.auth0.com"
@@ -10,7 +10,7 @@ API_AUDIENCE = "prestige-worldwide"
 
 class AuthError(Exception):
   def __init__(self, error, status_code):
-    self.error. = error
+    self.error = error
     self.status_code = status_code
 
 
