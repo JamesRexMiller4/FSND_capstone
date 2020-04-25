@@ -8,7 +8,7 @@ Instructions on how to interact and use the API can be found on the backend READ
 
 
 ## Database management - PostgreSQL, SQLite, SQLAlchemy
-Throughout the course I have learned how to setup a PostgreSQL and SQLite database and create schemas and models for those databases through SQLAlchemy. With databases in place for persistent data storage 
+Throughout the course I have learned how to setup a PostgreSQL and SQLite database and create schemas and models for those databases through SQLAlchemy.
 
 ## CRUD, RESTful APIs, and testing with unittest
 I learned how to create CRUD applications and RESTful APIs using the microframework Flask. I have gained experience with many add-ons such as Flask-Migrate to handle database migrations, Flask-Cors for cross-origin requests, and Python-Jose for working and handling JWTs. I have gained experience building decorators to handle errors and authorization. 
