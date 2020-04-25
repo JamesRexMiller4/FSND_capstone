@@ -61,7 +61,7 @@ To be able to perform CRUD operations such as POST, DELETE and PATCH the user wi
 
 https://prestige-worldwide.auth0.com/authorize?audience=prestige-worldwide&response_type=token&client_id=ZAge6P7lBGBC3ZgH2bCjz0ddh1GnWQe7&redirect_uri=http:/localhost:5000/login-details
 
-**To login as a Casting Direction:**
+**To login as a Casting Director:**
 
 `email: example@email.com`
 `password: Password1234`
